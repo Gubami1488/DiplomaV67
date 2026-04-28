@@ -18,6 +18,6 @@ export async function getAllUsers() {
   return snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
 }
 
-export async function updateUserProfile(uid, data) {
-  await updateDoc(doc(db, 'users', uid), data);
+export async function updateUserProfile(uid, { school, photoDataUrl }) {
+  await updateDoc(doc(db, 'users', uid), { school, photoDataUrl });
 }

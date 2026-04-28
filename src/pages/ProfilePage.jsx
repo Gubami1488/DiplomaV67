@@ -5,8 +5,6 @@ import { updateUserProfile } from '../services/userService';
 import styles from './ProfilePage.module.css';
 
 const schools = ['МБОУ Жирновская СОШ'];
-const classNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
-const parallels = ['А', 'Б', 'В'];
 
 function readFileAsDataUrl(file) {
   return new Promise((resolve, reject) => {
@@ -91,8 +89,13 @@ function ProfilePage() {
     setSaveMessage('');
 
     try {
-      await updateUserProfile(user.uid, formData);
-      updateProfileState(formData);
+      const updatedData = {
+        school: formData.school,
+        photoDataUrl: formData.photoDataUrl
+      };
+
+      await updateUserProfile(user.uid, updatedData);
+      updateProfileState(updatedData);
       setSaveMessage('Профиль успешно обновлён.');
     } catch (saveError) {
       setError('Не удалось сохранить профиль.');
@@ -142,29 +145,15 @@ function ProfilePage() {
 
             {profile?.role === 'student' && (
               <div className={styles.formRow}>
-                <label>
+                <div className={styles.readOnlyField}>
                   <span>Класс</span>
-                  <select name="classNumber" value={formData.classNumber} onChange={handleChange}>
-                    <option value="">Не указан</option>
-                    {classNumbers.map((classNumber) => (
-                      <option key={classNumber} value={classNumber}>
-                        {classNumber}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                  <strong>{formData.classNumber || 'Не указан'}</strong>
+                </div>
 
-                <label>
+                <div className={styles.readOnlyField}>
                   <span>Параллель</span>
-                  <select name="parallel" value={formData.parallel} onChange={handleChange}>
-                    <option value="">Не указана</option>
-                    {parallels.map((parallel) => (
-                      <option key={parallel} value={parallel}>
-                        {parallel}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                  <strong>{formData.parallel || 'Не указана'}</strong>
+                </div>
               </div>
             )}
 
