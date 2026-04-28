@@ -1,0 +1,64 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function currentUser() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function hasRole(role) {
+      return isSignedIn() && currentUser().data.role == role;
+    }
+
+    function isTeacher() {
+      return hasRole('teacher');
+    }
+
+    function isStudent() {
+      return hasRole('student');
+    }
+
+    function projectDoc(projectId) {
+      return get(/databases/$(database)/documents/projects/$(projectId));
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.auth.uid == userId;
+      allow update: if isSignedIn() && request.auth.uid == userId && request.resource.data.role == resource.data.role;
+      allow delete: if false;
+    }
+
+    match /projects/{projectId} {
+      allow read: if isSignedIn();
+      allow create: if isTeacher() && request.resource.data.teacherId == request.auth.uid;
+      allow update: if isTeacher() && resource.data.teacherId == request.auth.uid;
+      allow delete: if false;
+    }
+
+    match /tasks/{taskId} {
+      allow read: if isSignedIn();
+
+      allow create: if isTeacher()
+        && projectDoc(request.resource.data.projectId).data.teacherId == request.auth.uid;
+
+      allow update: if (
+        isTeacher() && projectDoc(resource.data.projectId).data.teacherId == request.auth.uid
+      ) || (
+        isStudent()
+        && resource.data.assigneeId == request.auth.uid
+        && request.resource.data.assigneeId == resource.data.assigneeId
+        && request.resource.data.projectId == resource.data.projectId
+        && request.resource.data.title == resource.data.title
+        && request.resource.data.description == resource.data.description
+        && request.resource.data.deadline == resource.data.deadline
+        && request.resource.data.createdAt == resource.data.createdAt
+      );
+
+      allow delete: if false;
+    }
+  }
+}

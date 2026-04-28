@@ -1,0 +1,28 @@
+.hero {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  padding: 28px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+}
+
+.hero h1 {
+  margin-bottom: 10px;
+}
+
+.hero p {
+  margin: 0;
+  color: #475569;
+  max-width: 720px;
+}
+
+@media (max-width: 700px) {
+  .hero {
+    flex-direction: column;
+  }
+}

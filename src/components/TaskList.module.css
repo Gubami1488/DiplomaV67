@@ -1,0 +1,64 @@
+.list {
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 18px;
+  display: grid;
+  gap: 12px;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.topRow h3,
+.card p {
+  margin: 0;
+}
+
+.card p {
+  color: #475569;
+}
+
+.badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #0c4a6e;
+  height: fit-content;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+.selectRow {
+  display: grid;
+  gap: 8px;
+}
+
+.selectRow select {
+  max-width: 220px;
+}
+
+@media (max-width: 700px) {
+  .topRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .badge {
+    margin-top: 2px;
+  }
+}

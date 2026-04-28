@@ -1,0 +1,10 @@
+.appShell {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f8fbff 0%, #f1f5f9 100%);
+}
+
+.mainContent {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 24px 0 48px;
+}
