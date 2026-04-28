@@ -86,6 +86,23 @@
   gap: 8px;
 }
 
+.readOnlyField {
+  display: grid;
+  gap: 8px;
+}
+
+.readOnlyField strong {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #334155;
+  font-weight: 600;
+}
+
 .formRow {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
